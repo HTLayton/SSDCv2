@@ -13,7 +13,10 @@ public class CreationController {
     @PostMapping("/create")
     public ResponseEntity<String> create(@RequestBody AccountCreationDto creationDetail){
 
-        return new ResponseEntity<>(creationDetail.getUsername(), HttpStatus.ACCEPTED);
+        System.out.println(creationDetail.getEmail());
+        System.out.println(creationDetail.getUsername());
+        System.out.println(creationDetail.getPassword());
+        return new ResponseEntity<>("created", HttpStatus.ACCEPTED);
     }
 
 }
