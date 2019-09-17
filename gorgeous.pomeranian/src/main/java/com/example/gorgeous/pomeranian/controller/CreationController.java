@@ -13,9 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CreationController {
 
-    @Autowired
-    AccountRepository accountRepository;
-
     @PostMapping("/create")
     public ResponseEntity<String> create(@RequestBody AccountCreationDto creationDetail){
 
@@ -23,8 +20,6 @@ public class CreationController {
         System.out.println(creationDetail.getUsername());
         System.out.println(creationDetail.getPassword());
 
-        accountRepository.save(new Account(creationDetail.getEmail(),creationDetail.getUsername(),
-                creationDetail.getPassword(), false, false));
         return new ResponseEntity<>("created", HttpStatus.ACCEPTED);
     }
 
