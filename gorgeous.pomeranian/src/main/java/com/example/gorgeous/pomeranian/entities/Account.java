@@ -6,12 +6,14 @@ import org.springframework.data.relational.core.mapping.Table;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import lombok.Setter;
 import javax.persistence.Id;
 
 @Table("account")
 @Entity
 @AllArgsConstructor
 @Getter
+@Setter
 public class Account {
 
     @Column(name = "email", nullable = false)
