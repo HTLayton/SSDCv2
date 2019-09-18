@@ -1,13 +1,17 @@
 package com.example.gorgeous.pomeranian.entities;
 
 import lombok.AllArgsConstructor;
-import org.springframework.data.annotation.Id;
+import lombok.Getter;
 import org.springframework.data.relational.core.mapping.Table;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Table("account")
+@Entity
 @AllArgsConstructor
+@Getter
 public class Account {
 
     @Column(name = "email", nullable = false)
@@ -25,4 +29,6 @@ public class Account {
 
     @Column(name = "verified", nullable = false)
     private boolean verified;
+
+    public Account(){}
 }
