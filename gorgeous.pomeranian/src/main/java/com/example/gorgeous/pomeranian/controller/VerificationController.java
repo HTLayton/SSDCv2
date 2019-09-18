@@ -1,6 +1,6 @@
 package com.example.gorgeous.pomeranian.controller;
 
-import com.example.gorgeous.pomeranian.account;
+import com.example.gorgeous.pomeranian.entities.Account;
 import com.example.gorgeous.pomeranian.db.ConnectionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,8 +22,8 @@ public class VerificationController {
     @PostMapping("/check/{token}")
     public ResponseEntity<String> checkToken(@PathVariable String token){
 
-        account tempAccount = connectionRepository.getOne(token);
-        tempAccount.setVerified(1);
+        Account tempAccount = connectionRepository.getOne(token);
+        tempAccount.setVerified(true);
         connectionRepository.save(tempAccount);
 
         return new ResponseEntity<>("Verified", HttpStatus.ACCEPTED);
