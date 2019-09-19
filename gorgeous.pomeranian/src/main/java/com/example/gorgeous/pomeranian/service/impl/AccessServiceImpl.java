@@ -16,26 +16,15 @@ public class AccessServiceImpl implements AccessService {
 
     public ResponseEntity<String> login(LoginDto loginInfo){
         Account tempAccount = connectionRepository.getOne(loginInfo.getUsername());
-        if(tempAccount.isLogOnStatus()){
-            return new ResponseEntity<String>("alreadyLoggedIn", HttpStatus.ALREADY_REPORTED);
-        }
-        else{
-            tempAccount.setLogOnStatus(true);
-            connectionRepository.save(tempAccount);
-            return new ResponseEntity<String>("logged in", HttpStatus.ACCEPTED);
-        }
-
+        tempAccount.setLogOnStatus(true);
+        connectionRepository.save(tempAccount);
+        return new ResponseEntity<String>("logged in", HttpStatus.ACCEPTED);
     }
 
     public ResponseEntity<String> logoff(String userName){
         Account tempAccount = connectionRepository.getOne(userName);
-        if(!tempAccount.isLogOnStatus()){
-            return new ResponseEntity<String>("notLoggedIn",HttpStatus.BAD_REQUEST);
-        }
-        else{
-            tempAccount.setLogOnStatus(false);
-            connectionRepository.save(tempAccount);
-            return new ResponseEntity<String>("logged out",HttpStatus.ACCEPTED);
-        }
+        tempAccount.setLogOnStatus(false);
+        connectionRepository.save(tempAccount);
+        return new ResponseEntity<String>("logged out",HttpStatus.ACCEPTED);
     }
 }
