@@ -1,9 +1,7 @@
 package com.example.gorgeous.pomeranian.controller;
 
-import com.example.gorgeous.pomeranian.entities.Account;
-import com.example.gorgeous.pomeranian.db.ConnectionRepository;
+import com.example.gorgeous.pomeranian.service.impl.CheckServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 public class VerificationController {
 
     @Autowired
-    ConnectionRepository connectionRepository;
+    CheckServiceImpl checkService;
 
     @GetMapping("/send-link")
     public String getLink(){
@@ -21,11 +19,6 @@ public class VerificationController {
 
     @PostMapping("/check/{token}")
     public ResponseEntity<String> checkToken(@PathVariable String token){
-
-        Account tempAccount = connectionRepository.getOne(token);
-        tempAccount.setVerified(true);
-        connectionRepository.save(tempAccount);
-
-        return new ResponseEntity<>("Verified", HttpStatus.ACCEPTED);
+        return checkService.check(token);
     }
 }

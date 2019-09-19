@@ -1,11 +1,12 @@
 package com.example.gorgeous.pomeranian.service;
 
 import com.example.gorgeous.pomeranian.dto.LoginDto;
+import org.springframework.http.ResponseEntity;
 
 public interface AccessService {
 
-    void login(LoginDto loginInfo);
+    ResponseEntity<String> login(LoginDto loginInfo);
 
-    void logoff(String userName);
+    ResponseEntity<String> logoff(String userName);
 
 }
