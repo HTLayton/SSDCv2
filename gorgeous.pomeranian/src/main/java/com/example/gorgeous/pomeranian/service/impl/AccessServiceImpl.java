@@ -16,8 +16,11 @@ public class AccessServiceImpl implements AccessService {
 
     public ResponseEntity<String> login(LoginDto loginInfo){
         Account tempAccount = connectionRepository.getOne(loginInfo.getUsername());
+        if(!tempAccount.isVerified()){
+            return new ResponseEntity<>("accountNotVerified", HttpStatus.BAD_REQUEST);
+        }
         if(tempAccount.isLogOnStatus()){
-            return new ResponseEntity<String>("alreadyLoggedIn", HttpStatus.ALREADY_REPORTED);
+            return new ResponseEntity<String>("alreadyLoggedIn", HttpStatus.BAD_REQUEST);
         }
         else{
             tempAccount.setLogOnStatus(true);
