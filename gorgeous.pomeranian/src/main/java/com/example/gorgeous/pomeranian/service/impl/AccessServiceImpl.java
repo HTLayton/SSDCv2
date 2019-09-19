@@ -19,9 +19,6 @@ public class AccessServiceImpl implements AccessService {
         if(!tempAccount.isVerified()){
             return new ResponseEntity<>("accountNotVerified", HttpStatus.BAD_REQUEST);
         }
-        if(tempAccount.isLogOnStatus()){
-            return new ResponseEntity<String>("alreadyLoggedIn", HttpStatus.BAD_REQUEST);
-        }
         else{
             tempAccount.setLogOnStatus(true);
             connectionRepository.save(tempAccount);
@@ -32,13 +29,8 @@ public class AccessServiceImpl implements AccessService {
 
     public ResponseEntity<String> logoff(String userName){
         Account tempAccount = connectionRepository.getOne(userName);
-        if(!tempAccount.isLogOnStatus()){
-            return new ResponseEntity<String>("notLoggedIn",HttpStatus.BAD_REQUEST);
-        }
-        else{
-            tempAccount.setLogOnStatus(false);
-            connectionRepository.save(tempAccount);
-            return new ResponseEntity<String>("logged out",HttpStatus.ACCEPTED);
-        }
+        tempAccount.setLogOnStatus(false);
+        connectionRepository.save(tempAccount);
+        return new ResponseEntity<String>("logged out",HttpStatus.ACCEPTED);
     }
 }
