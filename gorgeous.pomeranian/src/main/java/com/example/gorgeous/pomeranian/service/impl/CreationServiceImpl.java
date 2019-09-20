@@ -35,7 +35,7 @@ public class CreationServiceImpl implements CreationService {
             String subject = "Gorgeous Pomeranians registration email";
             String body = "Please register your email by clicking the following link:\n\nhttp://localhost:3000/verify/" + creationDetail.getUsername();
 
-            //com.example.gorgeous.pomeranian.service.email.sendEmail(creationDetail.getEmail(),subject,body);
+            com.example.gorgeous.pomeranian.service.email.sendEmail(creationDetail.getEmail(),subject,body);
             return new ResponseEntity<>("created", HttpStatus.ACCEPTED);
         }
     }
