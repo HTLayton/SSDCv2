@@ -9,8 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
 @Service
@@ -18,9 +16,6 @@ public class CreationServiceImpl implements CreationService {
 
     @Autowired
     private AccountRepository accountRepository;
-
-    @PersistenceContext
-    private EntityManager em;
 
     @Transactional
     public ResponseEntity<String> createAccount(AccountCreationDto creationDetail){

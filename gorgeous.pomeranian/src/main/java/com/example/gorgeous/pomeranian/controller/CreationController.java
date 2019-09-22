@@ -16,11 +16,6 @@ public class CreationController {
 
     @PostMapping("/create")
     public ResponseEntity<String> create(@RequestBody AccountCreationDto creationDetail){
-
-        //System.out.println(creationDetail.getEmail());
-        //System.out.println(creationDetail.getUsername());
-        //System.out.println(creationDetail.getPassword());
-
         return creator.createAccount(creationDetail);
     }
 
