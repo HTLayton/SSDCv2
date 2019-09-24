@@ -1,3 +1,0 @@
-@echo off
-"sqlServer/bin/mysql.exe" -u root -p -s < master.sql
-echo Exit from MYSQL...

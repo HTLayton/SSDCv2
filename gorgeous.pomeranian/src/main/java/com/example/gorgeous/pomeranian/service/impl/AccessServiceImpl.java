@@ -19,12 +19,16 @@ public class AccessServiceImpl implements AccessService {
         if(!tempAccount.isVerified()){
             return new ResponseEntity<>("accountNotVerified", HttpStatus.BAD_REQUEST);
         }
-        else{
+        else if(tempAccount.getPasswordHash().equals(loginInfo.getPassword())){
             tempAccount.setLogOnStatus(true);
             accountRepository.save(tempAccount);
             return new ResponseEntity<String>("logged in", HttpStatus.ACCEPTED);
         }
-
+        else{
+            System.out.println(loginInfo.getUsername());
+            System.out.print(loginInfo.getPassword());
+            return new ResponseEntity<>("passwordNotMatched", HttpStatus.NOT_ACCEPTABLE);
+        }
     }
 
     public ResponseEntity<String> logoff(String userName){
