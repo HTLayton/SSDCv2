@@ -7,6 +7,7 @@ import com.example.gorgeous.pomeranian.service.AccessService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,7 +20,7 @@ public class AccessServiceImpl implements AccessService {
         if(!tempAccount.isVerified()){
             return new ResponseEntity<>("accountNotVerified", HttpStatus.BAD_REQUEST);
         }
-        else if(tempAccount.getPasswordHash().equals(loginInfo.getPassword())){
+        else if(BCrypt.checkpw(loginInfo.getPassword(), tempAccount.getPasswordHash())){
             tempAccount.setLogOnStatus(true);
             accountRepository.save(tempAccount);
             return new ResponseEntity<String>("logged in", HttpStatus.ACCEPTED);

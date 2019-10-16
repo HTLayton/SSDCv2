@@ -2,6 +2,7 @@ package com.example.gorgeous.pomeranian.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.relational.core.mapping.Table;
 
 import javax.persistence.Column;
@@ -12,6 +13,7 @@ import javax.persistence.Id;
 @Table("account")
 @Entity
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 public class Account {
@@ -32,5 +34,4 @@ public class Account {
     @Column(name = "verified", nullable = false)
     private boolean verified;
 
-    public Account(){}
 }
