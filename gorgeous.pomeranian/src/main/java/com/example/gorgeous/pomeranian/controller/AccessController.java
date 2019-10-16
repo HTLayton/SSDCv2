@@ -1,20 +1,25 @@
 package com.example.gorgeous.pomeranian.controller;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.gorgeous.pomeranian.dto.LoginDto;
+import com.example.gorgeous.pomeranian.service.impl.AccessServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/access")
-public class AccessController {
+public class AccessController{
+
+    @Autowired
+    private AccessServiceImpl access;
 
     @PostMapping("/login")
-    public static void login(){
-
+    public ResponseEntity<String> login(@RequestBody LoginDto loginInfo){
+        return access.login(loginInfo);
     }
 
     @PostMapping("/logoff/{username}")
-    public static void logoff(){
-
+    public ResponseEntity<String> logoff(@PathVariable String username){
+        return access.logoff(username);
     }
 }

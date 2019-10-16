@@ -1,13 +1,16 @@
 package com.example.gorgeous.pomeranian.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.gorgeous.pomeranian.service.impl.CheckServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/verify")
 public class VerificationController {
+
+    @Autowired
+    CheckServiceImpl checkService;
 
     @GetMapping("/send-link")
     public String getLink(){
@@ -15,7 +18,7 @@ public class VerificationController {
     }
 
     @PostMapping("/check/{token}")
-    public static void checkToken(){
-
+    public ResponseEntity<String> checkToken(@PathVariable String token){
+        return checkService.check(token);
     }
 }
