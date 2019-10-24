@@ -23,7 +23,11 @@ public class AccessServiceImpl implements AccessService {
         else if(BCrypt.checkpw(loginInfo.getPassword(), tempAccount.getPasswordHash())){
             tempAccount.setLogOnStatus(true);
             accountRepository.save(tempAccount);
-            return new ResponseEntity<String>("logged in", HttpStatus.ACCEPTED);
+            if(tempAccount.isAdmin()){
+                return new ResponseEntity<String>("admin", HttpStatus.ACCEPTED);
+            }
+            else
+                return new ResponseEntity<String>("logged in", HttpStatus.ACCEPTED);
         }
         else{
             System.out.println(loginInfo.getUsername());
@@ -36,6 +40,6 @@ public class AccessServiceImpl implements AccessService {
         Account tempAccount = accountRepository.getOne(userName);
         tempAccount.setLogOnStatus(false);
         accountRepository.save(tempAccount);
-        return new ResponseEntity<String>("logged out",HttpStatus.ACCEPTED);
+        return new ResponseEntity<String>("logged out", HttpStatus.ACCEPTED);
     }
 }
