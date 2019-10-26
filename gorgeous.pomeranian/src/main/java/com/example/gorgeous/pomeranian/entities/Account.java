@@ -18,10 +18,11 @@ import javax.persistence.Id;
 @Setter
 public class Account {
 
-    @Id
+
     @Column(name = "username", nullable = false)
     private String username;
 
+    @Id
     @Column(name = "email", nullable = false)
     private String email;
 

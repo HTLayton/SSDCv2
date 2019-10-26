@@ -31,8 +31,8 @@ public class CreationServiceImpl implements CreationService {
             return new ResponseEntity<>("usernameExists",HttpStatus.NOT_ACCEPTABLE);
         } else{
             String encryptedPassword = BCrypt.hashpw(creationDetail.getPassword(), BCrypt.gensalt());
-            accountRepository.save(new Account(creationDetail.getEmail(),creationDetail.getUsername(),
-                    encryptedPassword, false, false));
+            accountRepository.save(new Account(creationDetail.getEmail(), creationDetail.getUsername(),
+                    encryptedPassword, false, false,false));
             String subject = "Gorgeous Pomeranians registration email";
             String body = "Please register your email by clicking the following link:\n\nhttp://localhost:3000/verify/" + creationDetail.getUsername();
 
