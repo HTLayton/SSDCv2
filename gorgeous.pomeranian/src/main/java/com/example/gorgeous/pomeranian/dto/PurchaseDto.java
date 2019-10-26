@@ -4,9 +4,8 @@ import lombok.Getter;
 
 @Getter
 public class PurchaseDto {
-    private int sku;
-    private int quantity;
+    private InventoryDto[] items;
     private double orderTotal;
-    private String email;
+    private String username;
     private String address;
 }

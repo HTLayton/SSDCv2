@@ -12,7 +12,6 @@ import java.util.List;
 public interface InventoryRepository extends JpaRepository<Inventory, String> {
 
     @Query(value = "Select * from inventory where sku = :sku", nativeQuery = true)
-    List<Inventory> findBySKU(@Param("sku") String sku);
-
+    Inventory findBySku(@Param("sku") int sku);
 
 }
