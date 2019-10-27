@@ -16,6 +16,8 @@ import javax.persistence.Id;
 @Setter
 public class Inventory {
 
+    public Inventory(){}
+
     @Id
     @Column(name = "sku", nullable = false)
     private int sku;

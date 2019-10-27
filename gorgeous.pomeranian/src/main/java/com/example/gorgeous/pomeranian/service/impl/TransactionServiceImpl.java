@@ -42,11 +42,13 @@ public class TransactionServiceImpl implements TransactionService {
                 removeFromInventory(currentItems[i]);
             }
             //TODO send email when purchase completes
-            com.example.gorgeous.pomeranian.service.email.sendEmail(accountRepository.findByUsernameEmail(transactionDetail.getUsername()),"Successful Gorgeous Pomeranians Order", transactionDetail.toString());
+            //com.example.gorgeous.pomeranian.service.email.sendEmail(accountRepository.findByUsernameEmail(transactionDetail.getUsername()),"Successful Gorgeous Pomeranians Order", transactionDetail.toString());
         }
         else{
+            System.out.println("Purchase Fail");
             return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         }
+        System.out.println("Purchase Complete");
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
