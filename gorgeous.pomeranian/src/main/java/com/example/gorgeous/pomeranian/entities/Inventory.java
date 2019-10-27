@@ -25,9 +25,16 @@ public class Inventory {
     @Column(name = "name", nullable = false)
     private String inventoryName;
 
+    @Column(name = "description", nullable = false)
+    private String description;
+
     @Column(name = "quantity", nullable = false)
     private int quantity;
 
     @Column(name = "price", nullable = false)
     private double price;
+
+    @Column(name = "image_url", nullable = false)
+    private String imageURL;
+
 }

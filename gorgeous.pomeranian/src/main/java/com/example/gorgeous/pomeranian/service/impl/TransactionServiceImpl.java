@@ -22,7 +22,7 @@ public class TransactionServiceImpl implements TransactionService {
     AccountRepository accountRepository;
 
     @Autowired
-    private email emailer;
+    email emailer;
 
     @Override
     public ResponseEntity<String> addInventory(InventoryDto addedItems) {

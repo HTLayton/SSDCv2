@@ -8,5 +8,4 @@ public class PurchaseDto {
     private double orderTotal;
     private String username;
     private String address;
-
 }

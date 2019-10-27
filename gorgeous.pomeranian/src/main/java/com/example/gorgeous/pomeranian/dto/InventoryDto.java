@@ -15,9 +15,4 @@ public class InventoryDto {
 
     private int sku;
     private int quantity;
-
-    public String toHTMLString(){
-        Inventory item = inventoryRepository.findBySku(this.getSku());
-        return "<tr><td>" + item.getInventoryName() + "</td><td>" + quantity + "</td></tr>";
-    }
 }
