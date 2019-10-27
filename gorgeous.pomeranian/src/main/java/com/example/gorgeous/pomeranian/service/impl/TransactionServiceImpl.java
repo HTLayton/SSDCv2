@@ -3,6 +3,7 @@ package com.example.gorgeous.pomeranian.service.impl;
 import com.example.gorgeous.pomeranian.dto.InventoryDto;
 import com.example.gorgeous.pomeranian.dto.PurchaseDto;
 import com.example.gorgeous.pomeranian.entities.Inventory;
+import com.example.gorgeous.pomeranian.repository.AccountRepository;
 import com.example.gorgeous.pomeranian.repository.InventoryRepository;
 import com.example.gorgeous.pomeranian.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,9 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Autowired
     InventoryRepository inventoryRepository;
+
+    @Autowired
+    AccountRepository accountRepository;
 
     @Override
     public ResponseEntity<String> addInventory(InventoryDto addedItems) {
@@ -38,6 +42,7 @@ public class TransactionServiceImpl implements TransactionService {
                 removeFromInventory(currentItems[i]);
             }
             //TODO send email when purchase completes
+            com.example.gorgeous.pomeranian.service.email.sendEmail(accountRepository.findByUsernameEmail(transactionDetail.getUsername()),"Successful Gorgeous Pomeranians Order", transactionDetail.toString());
         }
         else{
             return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);

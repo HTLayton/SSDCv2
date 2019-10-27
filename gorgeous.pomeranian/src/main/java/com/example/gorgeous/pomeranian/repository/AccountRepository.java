@@ -17,4 +17,7 @@ public interface AccountRepository extends JpaRepository<Account, String> {
     @Query(value = "Select * from account where username = :username", nativeQuery = true)
     List<Account> findByUsernameList(@Param("username") String username);
 
+    @Query(value = "Select distinct email from account where username = :username limit 1", nativeQuery = true)
+    String findByUsernameEmail(@Param("username") String username);
+
 }
