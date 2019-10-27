@@ -6,6 +6,7 @@ import com.example.gorgeous.pomeranian.entities.Inventory;
 import com.example.gorgeous.pomeranian.repository.AccountRepository;
 import com.example.gorgeous.pomeranian.repository.InventoryRepository;
 import com.example.gorgeous.pomeranian.service.TransactionService;
+import com.example.gorgeous.pomeranian.service.email;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,9 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Autowired
     AccountRepository accountRepository;
+
+    @Autowired
+    private email emailer;
 
     @Override
     public ResponseEntity<String> addInventory(InventoryDto addedItems) {
@@ -41,10 +45,8 @@ public class TransactionServiceImpl implements TransactionService {
             for(int i = 0; i < currentItems.length; i++){
                 removeFromInventory(currentItems[i]);
             }
-            //TODO send email when purchase completes
-            //System.out.println(transactionDetail.getUsername());
-            //System.out.println(accountRepository.findByUsernameEmail(transactionDetail.getUsername()));
-            com.example.gorgeous.pomeranian.service.email.sendHTMLEmail(accountRepository.findByUsernameEmail(transactionDetail.getUsername()),"Successful Gorgeous Pomeranians Order", transactionDetail.toHTMLString());
+            String body = emailer.toHTMLString(transactionDetail);
+            emailer.sendHTMLEmail(accountRepository.findByUsernameEmail(transactionDetail.getUsername()),"Successful Gorgeous Pomeranians Order", body);
         }
         else{
             System.out.println("Purchase Fail");

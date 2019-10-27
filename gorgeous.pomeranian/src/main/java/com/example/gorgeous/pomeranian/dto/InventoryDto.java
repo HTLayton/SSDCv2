@@ -1,5 +1,6 @@
 package com.example.gorgeous.pomeranian.dto;
 
+import com.example.gorgeous.pomeranian.entities.Inventory;
 import com.example.gorgeous.pomeranian.repository.InventoryRepository;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,9 +15,9 @@ public class InventoryDto {
 
     private int sku;
     private int quantity;
+
     public String toHTMLString(){
-        System.out.println("Bouta crash");
-        System.out.println(inventoryRepository.findBySku(sku).getInventoryName());
-        return "<tr><td>" + inventoryRepository.findBySku(sku).getInventoryName() + "</td><td>" + quantity + "</td></tr>";
+        Inventory item = inventoryRepository.findBySku(this.getSku());
+        return "<tr><td>" + item.getInventoryName() + "</td><td>" + quantity + "</td></tr>";
     }
 }

@@ -41,9 +41,9 @@ public class AccessServiceImpl implements AccessService {
 
     public ResponseEntity<String> getAdminStatus (Account tempAccount){
         if(tempAccount.isAdmin()){
-            return new ResponseEntity<String>("isAdmin:true", HttpStatus.ACCEPTED);
+            return new ResponseEntity<String>("{\"isAdmin\":\"true\"", HttpStatus.ACCEPTED);
         }
         else
-            return new ResponseEntity<String>("isAdmin:false", HttpStatus.ACCEPTED);
+            return new ResponseEntity<String>("{\"isAdmin\":\"false\"", HttpStatus.ACCEPTED);
     }
 }
