@@ -42,7 +42,9 @@ public class TransactionServiceImpl implements TransactionService {
                 removeFromInventory(currentItems[i]);
             }
             //TODO send email when purchase completes
-            //com.example.gorgeous.pomeranian.service.email.sendEmail(accountRepository.findByUsernameEmail(transactionDetail.getUsername()),"Successful Gorgeous Pomeranians Order", transactionDetail.toString());
+            //System.out.println(transactionDetail.getUsername());
+            //System.out.println(accountRepository.findByUsernameEmail(transactionDetail.getUsername()));
+            com.example.gorgeous.pomeranian.service.email.sendHTMLEmail(accountRepository.findByUsernameEmail(transactionDetail.getUsername()),"Successful Gorgeous Pomeranians Order", transactionDetail.toHTMLString());
         }
         else{
             System.out.println("Purchase Fail");

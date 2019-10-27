@@ -6,12 +6,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
 public interface InventoryRepository extends JpaRepository<Inventory, String> {
 
     @Query(value = "Select * from inventory where sku = :sku", nativeQuery = true)
     Inventory findBySku(@Param("sku") int sku);
+
+    @Query(value = "Select name from inventory where sku = :sku limit 1", nativeQuery = true)
+    String findNameBySku(@Param("sku") int sku);
 
 }
