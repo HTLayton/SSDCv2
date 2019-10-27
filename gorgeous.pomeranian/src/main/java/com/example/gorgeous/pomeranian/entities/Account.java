@@ -18,13 +18,12 @@ import javax.persistence.Id;
 @Setter
 public class Account {
 
-
-    @Column(name = "username", nullable = false)
-    private String username;
-
-    @Id
     @Column(name = "email", nullable = false)
     private String email;
+    
+    @Id
+    @Column(name = "username", nullable = false)
+    private String username;
 
     @Column(name = "password_hash", nullable = false)
     private String passwordHash;
