@@ -85,9 +85,7 @@ public class email {
 		InventoryDto[] currentItems = transactionDetail.getItems();
 		String temp = "<h1>Thank you for your purchase</h1><table><tr><th>Name</th><th>Quantity</th>";
 		for(int i = 0; i < currentItems.length; i++){
-			System.out.println("Bouta crash");
 			Inventory item = inventoryRepository.findBySku(currentItems[i].getSku());
-			System.out.println(item.getInventoryName());
 			temp += "<tr><td>" + item.getInventoryName() + "</td><td>" + currentItems[i].getQuantity() + "</td></tr>";
 		}
 		temp += "</table><h3>Total cost: $" + transactionDetail.getOrderTotal() + "</h3>";

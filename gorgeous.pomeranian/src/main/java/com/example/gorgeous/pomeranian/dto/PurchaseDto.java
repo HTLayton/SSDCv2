@@ -1,8 +1,10 @@
 package com.example.gorgeous.pomeranian.dto;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class PurchaseDto {
     private InventoryDto[] items;
     private double orderTotal;
