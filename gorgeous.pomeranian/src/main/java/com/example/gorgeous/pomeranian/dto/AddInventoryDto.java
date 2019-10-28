@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 @NoArgsConstructor
-public class InventoryDto {
-    private int sku;
-    private int quantity;
+public class AddInventoryDto {
+    private InventoryDto[] items;
 }

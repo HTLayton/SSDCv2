@@ -1,5 +1,6 @@
 package com.example.gorgeous.pomeranian.service.impl;
 
+import com.example.gorgeous.pomeranian.dto.AddInventoryDto;
 import com.example.gorgeous.pomeranian.dto.InventoryDto;
 import com.example.gorgeous.pomeranian.dto.PurchaseDto;
 import com.example.gorgeous.pomeranian.entities.Inventory;
@@ -12,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.text.DecimalFormat;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
@@ -29,7 +32,9 @@ public class TransactionServiceImpl implements TransactionService {
     private email emailer;
 
     @Override
-    public ResponseEntity<String> addInventory(InventoryDto[] addedItems) {
+    public ResponseEntity<String> addInventory(AddInventoryDto add) {
+        InventoryDto[] addedItems = add.getItems();
+        if(addedItems.length == 0){return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);}
         for (InventoryDto item:addedItems) {
             Inventory inventory = inventoryRepository.findBySku(item.getSku());
             int newQuantity = item.getQuantity() + inventory.getQuantity();
@@ -38,10 +43,9 @@ public class TransactionServiceImpl implements TransactionService {
             } else {
                 inventory.setQuantity(newQuantity);
                 inventoryRepository.save(inventory);
-                return new ResponseEntity<>(HttpStatus.ACCEPTED);
             }
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
     @Override
@@ -51,12 +55,14 @@ public class TransactionServiceImpl implements TransactionService {
         for (InventoryDto currentItem : currentItems){
             orderTotBack += currentItem.getQuantity() * inventoryRepository.findBySku(currentItem.getSku()).getPrice();
         }
-        if(orderTotBack != transactionDetail.getOrderTotal()){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        DecimalFormat df = new DecimalFormat("0.00");
+        System.out.println("Total from James: " + transactionDetail.getOrderTotal() + "\nTotal from Ya Boi: " + orderTotBack + "\nIs Equal: " + (Double.parseDouble(df.format(orderTotBack)) == transactionDetail.getOrderTotal()));
         if(accountRepository.isVerified(transactionDetail.getUsername()) == 1) {
             if (isValid(currentItems, transactionDetail.getOrderTotal())) {
-                int tempId = transactionRepository.getRecentId() + 1;
+                int tempId = 0;
+                try{
+                    tempId = transactionRepository.getRecentId() + 1;
+                } catch(Exception ignored){}
                 for (InventoryDto currentItem : currentItems) {
                     removeFromInventory(currentItem);
                     addToTransaction(tempId, currentItem, transactionDetail);
@@ -64,13 +70,13 @@ public class TransactionServiceImpl implements TransactionService {
                 String body = emailer.toHTMLString(transactionDetail);
                 email.sendHTMLEmail(accountRepository.findByUsernameEmail(transactionDetail.getUsername()), "Successful Gorgeous Pomeranians Order", body);
             } else {
-                System.out.println("Purchase Fail");
+                System.out.println("Purchase Fail: Not Valid");
                 return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
             }
             System.out.println("Purchase Complete");
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         }
-        System.out.println("Purchase Fail");
+        System.out.println("Purchase Fail: Not Verified/Logged In");
         return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
     }
 
@@ -90,9 +96,10 @@ public class TransactionServiceImpl implements TransactionService {
             if (!checkQuantity(currentItem)) {
                 return false;
             }
-            total += getPrice(currentItem);
+            total += getPrice(currentItem) * currentItem.getQuantity();
         }
-        return total == orderTotal;
+        DecimalFormat df = new DecimalFormat("0.00");
+        return Double.parseDouble(df.format(total)) == orderTotal;
     }
 
     private void removeFromInventory(InventoryDto currentItem){

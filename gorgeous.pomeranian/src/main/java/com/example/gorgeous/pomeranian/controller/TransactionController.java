@@ -1,6 +1,6 @@
 package com.example.gorgeous.pomeranian.controller;
 
-import com.example.gorgeous.pomeranian.dto.InventoryDto;
+import com.example.gorgeous.pomeranian.dto.AddInventoryDto;
 import com.example.gorgeous.pomeranian.dto.PurchaseDto;
 import com.example.gorgeous.pomeranian.service.impl.TransactionServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ public class TransactionController {
     private TransactionServiceImpl transactionHandler;
 
     @PutMapping("/add-inventory")
-    ResponseEntity<String> addInventory(@RequestBody InventoryDto[] addedItems){
+    ResponseEntity<String> addInventory(@RequestBody AddInventoryDto addedItems){
         return transactionHandler.addInventory(addedItems);
     }
 
