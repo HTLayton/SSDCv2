@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 
 public interface TransactionService {
 
-    ResponseEntity<String> addInventory(InventoryDto addedItems);
+    ResponseEntity<String> addInventory(InventoryDto[] addedItems);
 
     ResponseEntity<String> purchase(PurchaseDto transactionDetail);
 }

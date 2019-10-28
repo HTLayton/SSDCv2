@@ -20,4 +20,7 @@ public interface AccountRepository extends JpaRepository<Account, String> {
     @Query(value = "Select email from account where username = :username limit 1", nativeQuery = true)
     String findByUsernameEmail(@Param("username") String username);
 
+    @Query(value = "select verified from account where username = :username", nativeQuery = true)
+    int isVerified(@Param("username") String username);
+
 }

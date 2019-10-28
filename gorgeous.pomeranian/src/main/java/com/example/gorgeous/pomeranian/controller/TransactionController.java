@@ -17,7 +17,7 @@ public class TransactionController {
     private TransactionServiceImpl transactionHandler;
 
     @PutMapping("/add-inventory")
-    ResponseEntity<String> addInventory(@RequestBody InventoryDto addedItems){
+    ResponseEntity<String> addInventory(@RequestBody InventoryDto[] addedItems){
         return transactionHandler.addInventory(addedItems);
     }
 
