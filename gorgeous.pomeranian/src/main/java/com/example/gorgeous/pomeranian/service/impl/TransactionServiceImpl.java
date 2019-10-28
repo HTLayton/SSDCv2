@@ -46,8 +46,15 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public ResponseEntity<String> purchase(PurchaseDto transactionDetail) {
+        InventoryDto[] currentItems = transactionDetail.getItems();
+        double orderTotBack = 0.0;
+        for (InventoryDto currentItem : currentItems){
+            orderTotBack += currentItem.getQuantity() * inventoryRepository.findBySku(currentItem.getSku()).getPrice();
+        }
+        if(orderTotBack != transactionDetail.getOrderTotal()){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         if(accountRepository.isVerified(transactionDetail.getUsername()) == 1) {
-            InventoryDto[] currentItems = transactionDetail.getItems();
             if (isValid(currentItems, transactionDetail.getOrderTotal())) {
                 int tempId = transactionRepository.getRecentId() + 1;
                 for (InventoryDto currentItem : currentItems) {
