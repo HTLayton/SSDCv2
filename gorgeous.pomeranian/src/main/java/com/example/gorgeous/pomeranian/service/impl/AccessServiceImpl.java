@@ -15,7 +15,7 @@ public class AccessServiceImpl implements AccessService {
     @Autowired
     AccountRepository accountRepository;
 
-    public ResponseEntity<String> login(LoginDto loginInfo){
+    public ResponseEntity<String> login (LoginDto loginInfo){
         Account tempAccount = accountRepository.getOne(loginInfo.getUsername());
         if(!tempAccount.isVerified()){
             return new ResponseEntity<>("accountNotVerified", HttpStatus.BAD_REQUEST);
@@ -23,7 +23,7 @@ public class AccessServiceImpl implements AccessService {
         else if(BCrypt.checkpw(loginInfo.getPassword(), tempAccount.getPasswordHash())){
             tempAccount.setLogOnStatus(true);
             accountRepository.save(tempAccount);
-            return new ResponseEntity<String>("logged in", HttpStatus.ACCEPTED);
+            return getAdminStatus(tempAccount);
         }
         else{
             System.out.println(loginInfo.getUsername());
@@ -32,10 +32,18 @@ public class AccessServiceImpl implements AccessService {
         }
     }
 
-    public ResponseEntity<String> logoff(String userName){
-        Account tempAccount = accountRepository.getOne(userName);
+    public ResponseEntity<String> logoff (String username){
+        Account tempAccount = accountRepository.getOne(username);
         tempAccount.setLogOnStatus(false);
         accountRepository.save(tempAccount);
-        return new ResponseEntity<String>("logged out",HttpStatus.ACCEPTED);
+        return new ResponseEntity<String>("logged out", HttpStatus.ACCEPTED);
+    }
+
+    public ResponseEntity<String> getAdminStatus (Account tempAccount){
+        if(tempAccount.isAdmin()){
+            return new ResponseEntity<String>("{\"isAdmin\":\"true\"}", HttpStatus.ACCEPTED);
+        }
+        else
+            return new ResponseEntity<String>("{\"isAdmin\":\"false\"}", HttpStatus.ACCEPTED);
     }
 }

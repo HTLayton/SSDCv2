@@ -20,7 +20,7 @@ public class Account {
 
     @Column(name = "email", nullable = false)
     private String email;
-
+    
     @Id
     @Column(name = "username", nullable = false)
     private String username;
@@ -33,5 +33,8 @@ public class Account {
 
     @Column(name = "verified", nullable = false)
     private boolean verified;
+
+    @Column(name = "admin", nullable = false)
+    private boolean admin;
 
 }

@@ -5,7 +5,9 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class LoginDto {
+public class PurchaseDto {
+    private InventoryDto[] items;
+    private double orderTotal;
     private String username;
-    private String password;
+    private String address;
 }
