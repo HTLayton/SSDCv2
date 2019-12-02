@@ -4,6 +4,8 @@ import com.example.gorgeous.pomeranian.dto.LoginDto;
 import com.example.gorgeous.pomeranian.entities.Account;
 import com.example.gorgeous.pomeranian.repository.AccountRepository;
 import com.example.gorgeous.pomeranian.service.AccessService;
+import com.example.gorgeous.pomeranian.service.JWTUtils;
+import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,9 @@ import org.springframework.stereotype.Service;
 public class AccessServiceImpl implements AccessService {
     @Autowired
     AccountRepository accountRepository;
+
+    @Autowired
+    JWTUtils jwtUtils;
 
     public ResponseEntity<String> login (LoginDto loginInfo){
         Account tempAccount = accountRepository.getOne(loginInfo.getUsername());
@@ -40,10 +45,15 @@ public class AccessServiceImpl implements AccessService {
     }
 
     public ResponseEntity<String> getAdminStatus (Account tempAccount){
+        String token = jwtUtils.createToken();
+        JsonObject loginJson = new JsonObject();
+        loginJson.addProperty("token", token);
         if(tempAccount.isAdmin()){
-            return new ResponseEntity<String>("{\"isAdmin\":\"true\"}", HttpStatus.ACCEPTED);
+            loginJson.addProperty("isAdmin", true);
         }
         else
-            return new ResponseEntity<String>("{\"isAdmin\":\"false\"}", HttpStatus.ACCEPTED);
+            loginJson.addProperty("isAdmin", false);
+
+        return new ResponseEntity<String>(loginJson.toString(), HttpStatus.ACCEPTED);
     }
 }

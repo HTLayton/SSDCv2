@@ -20,8 +20,8 @@ public class TestController {
         return new ResponseEntity("Redirect Found", HttpStatus.FOUND);
     }
 
-    @GetMapping("/test/400")
-    public ResponseEntity bad(){
-        return new ResponseEntity("Bad", HttpStatus.BAD_REQUEST);
+    @GetMapping("/test/418")
+    public ResponseEntity teapot(){
+        return new ResponseEntity("I'm A Teapot", HttpStatus.I_AM_A_TEAPOT);
     }
 }
