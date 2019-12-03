@@ -39,7 +39,7 @@ public class TransactionServiceImpl implements TransactionService {
             Inventory inventory = inventoryRepository.findBySku(item.getSku());
             int newQuantity = item.getQuantity() + inventory.getQuantity();
             if (newQuantity > 9999) {
-                return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+                return new ResponseEntity<String>(HttpStatus.NOT_ACCEPTABLE);
             } else {
                 inventory.setQuantity(newQuantity);
                 inventoryRepository.save(inventory);

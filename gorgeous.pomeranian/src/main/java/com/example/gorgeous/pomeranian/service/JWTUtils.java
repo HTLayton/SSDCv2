@@ -13,7 +13,7 @@ import java.util.Date;
 @Service
 public class JWTUtils {
 
-    public String createToken(){
+    public String createToken(String username){
         Date date = new Date();
         Date expDate = new Date(System.currentTimeMillis()+5*60*1000);
         String token;
@@ -23,6 +23,7 @@ public class JWTUtils {
                     .withIssuer("Gorgeous Pomeranians")
                     .withIssuedAt(date)
                     .withExpiresAt(expDate)
+                    .withAudience(username)
                     .sign(algorithm);
         } catch (JWTCreationException exception){
             token = "Token Not Made";
@@ -40,6 +41,25 @@ public class JWTUtils {
                     .acceptExpiresAt(15)
                     .build(); //Reusable verifier instance
             DecodedJWT jwt = verifier.verify(token);
+            valid = true;
+        } catch (JWTVerificationException exception){
+            valid = false;
+        }
+        return valid;
+    }
+
+    public boolean validateAdminToken(String token){
+        boolean valid;
+        try {
+            Algorithm algorithm = Algorithm.HMAC256("pomeranians");
+            JWTVerifier verifier = JWT.require(algorithm)
+                    .withIssuer("Gorgeous Pomeranians")
+                    .acceptExpiresAt(15)
+                    .withAudience("admin")
+                    .build(); //Reusable verifier instance
+            DecodedJWT jwt = verifier.verify(token);
+            System.out.println(jwt.getAudience());
+
             valid = true;
         } catch (JWTVerificationException exception){
             valid = false;

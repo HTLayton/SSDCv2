@@ -45,7 +45,7 @@ public class AccessServiceImpl implements AccessService {
     }
 
     public ResponseEntity<String> getAdminStatus (Account tempAccount){
-        String token = jwtUtils.createToken();
+        String token = jwtUtils.createToken(tempAccount.getUsername());
         JsonObject loginJson = new JsonObject();
         loginJson.addProperty("token", token);
         if(tempAccount.isAdmin()){
